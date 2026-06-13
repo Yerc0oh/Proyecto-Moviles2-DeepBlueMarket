@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="24dp">
+
+    <!-- Bienvenida -->
+    <TextView
+        android:id="@+id/tvWelcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="¡Bienvenido!"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="#1565C0"
+        android:layout_marginBottom="40dp" />
+
+    <!-- Ver productos -->
+    <Button
+        android:id="@+id/btnVerProductos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ver productos"
+        android:backgroundTint="#1565C0"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Mis productos -->
+    <Button
+        android:id="@+id/btnMisProductos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mis productos"
+        android:backgroundTint="#1565C0"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Perfil -->
+    <Button
+        android:id="@+id/btnPerfil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Perfil"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:textColor="#1565C0"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Salir de la app -->
+    <Button
+        android:id="@+id/btnSalir"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Salir de la app"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:textColor="#D32F2F" />
+
+</LinearLayout>
