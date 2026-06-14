@@ -1,11 +1,13 @@
-package com.moviles2.proyectomov2_deepbluemarket.models;
+package com.moviles2.proyectomov2_deepbluemarket.models.dto;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Usuario {
-
-    @SerializedName("id")
-    private long id;
+/**
+ * DTO usado para crear un nuevo usuario (POST a Supabase).
+ * No incluye "id" ni "fecha_registro" porque son generados
+ * automáticamente por la base de datos (identity / default now()).
+ */
+public class UsuarioCreateDTO {
 
     @SerializedName("auth0_id")
     private String auth0Id;
@@ -28,18 +30,12 @@ public class Usuario {
     @SerializedName("foto_documento_url")
     private String fotoDocumentoUrl;
 
-    @SerializedName("fecha_registro")
-    private String fechaRegistro;
-
-    // Constructor vacío (requerido por Gson)
-    public Usuario() {
+    public UsuarioCreateDTO() {
     }
 
-    // Constructor completo
-    public Usuario(long id, String auth0Id, String nombre, String correo,
-                   String telefono, boolean verificado, String fotoPerfilUrl,
-                   String fotoDocumentoUrl, String fechaRegistro) {
-        this.id = id;
+    public UsuarioCreateDTO(String auth0Id, String nombre, String correo,
+                            String telefono, boolean verificado,
+                            String fotoPerfilUrl, String fotoDocumentoUrl) {
         this.auth0Id = auth0Id;
         this.nombre = nombre;
         this.correo = correo;
@@ -47,16 +43,6 @@ public class Usuario {
         this.verificado = verificado;
         this.fotoPerfilUrl = fotoPerfilUrl;
         this.fotoDocumentoUrl = fotoDocumentoUrl;
-        this.fechaRegistro = fechaRegistro;
-    }
-
-    // Getters y Setters
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getAuth0Id() {
@@ -113,28 +99,5 @@ public class Usuario {
 
     public void setFotoDocumentoUrl(String fotoDocumentoUrl) {
         this.fotoDocumentoUrl = fotoDocumentoUrl;
-    }
-
-    public String getFechaRegistro() {
-        return fechaRegistro;
-    }
-
-    public void setFechaRegistro(String fechaRegistro) {
-        this.fechaRegistro = fechaRegistro;
-    }
-
-    @Override
-    public String toString() {
-        return "Usuario{" +
-                "id=" + id +
-                ", auth0Id='" + auth0Id + '\'' +
-                ", nombre='" + nombre + '\'' +
-                ", correo='" + correo + '\'' +
-                ", telefono='" + telefono + '\'' +
-                ", verificado=" + verificado +
-                ", fotoPerfilUrl='" + fotoPerfilUrl + '\'' +
-                ", fotoDocumentoUrl='" + fotoDocumentoUrl + '\'' +
-                ", fechaRegistro=" + fechaRegistro +
-                '}';
     }
 }

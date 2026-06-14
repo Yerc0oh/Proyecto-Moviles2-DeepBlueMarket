@@ -93,10 +93,14 @@ public class AuthManager {
                 .start(activity, new Callback<Credentials, AuthenticationException>() {
                     @Override
                     public void onSuccess(Credentials credentials) {
+                        guardarUsuario(credentials);
+
                         UserProfile profile = credentials.getUser();
 
-                        if (profile == null) return;
-
+                        if (profile == null) {
+                            Toast.makeText(activity, "Error perfil Auth0", Toast.LENGTH_LONG).show();
+                            return;
+                        }
                         userSyncManager.sincronizarUsuario(
                                 profile.getId(),
                                 profile.getName(),

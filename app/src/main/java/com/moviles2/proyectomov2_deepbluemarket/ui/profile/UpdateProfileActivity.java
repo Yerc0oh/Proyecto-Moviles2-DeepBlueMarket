@@ -11,6 +11,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputEditText;
 import com.moviles2.proyectomov2_deepbluemarket.R;
 import com.moviles2.proyectomov2_deepbluemarket.models.Usuario;
@@ -110,8 +111,14 @@ public class UpdateProfileActivity extends AppCompatActivity {
 
                 actualizarEstadoVerificacion(usuario.getFotoDocumentoUrl());
 
-                // TODO: si usuario.getFotoPerfilUrl() no es null,
-                // cargar la imagen en ivFotoPerfil (ej. con Glide o Coil).
+                if (usuario.getFotoPerfilUrl() != null && !usuario.getFotoPerfilUrl().isEmpty()) {
+                    Glide.with(UpdateProfileActivity.this)
+                            .load(usuario.getFotoPerfilUrl())
+                            .placeholder(android.R.drawable.sym_def_app_icon)
+                            .error(android.R.drawable.sym_def_app_icon)
+                            .circleCrop()
+                            .into(ivFotoPerfil);
+                }
             }
 
             @Override
@@ -161,8 +168,12 @@ public class UpdateProfileActivity extends AppCompatActivity {
         storageManager.uploadProfileImage(imageUri, auth0Id, new StorageManager.UploadCallback() {
             @Override
             public void onSuccess(String publicUrl) {
-                // TODO: cargar la imagen en ivFotoPerfil usando Glide
-                // Glide.with(UpdateProfileActivity.this).load(publicUrl).into(ivFotoPerfil);
+                Glide.with(UpdateProfileActivity.this)
+                        .load(publicUrl)
+                        .placeholder(android.R.drawable.sym_def_app_icon)
+                        .error(android.R.drawable.sym_def_app_icon)
+                        .circleCrop()
+                        .into(ivFotoPerfil);
 
                 if (usuarioActual != null) {
                     usuarioActual.setFotoPerfilUrl(publicUrl);
