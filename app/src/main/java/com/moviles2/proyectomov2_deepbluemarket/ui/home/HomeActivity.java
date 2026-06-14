@@ -11,7 +11,8 @@ import com.moviles2.proyectomov2_deepbluemarket.R;
 import com.moviles2.proyectomov2_deepbluemarket.ui.auth.LoginActivity;
 import com.moviles2.proyectomov2_deepbluemarket.ui.profile.ProfileActivity;
 import com.moviles2.proyectomov2_deepbluemarket.utils.SessionManager;
-
+import com.moviles2.proyectomov2_deepbluemarket.ui.products.ProductListActivity;
+import com.moviles2.proyectomov2_deepbluemarket.ui.products.MyProductsActivity;
 public class HomeActivity extends AppCompatActivity {
 
     private SessionManager sessionManager;
@@ -38,11 +39,11 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         btnVerProductos.setOnClickListener(v -> {
-            // TODO: navegar a la pantalla de listado de productos
+            startActivity(new Intent(HomeActivity.this, ProductListActivity.class));
         });
 
         btnMisProductos.setOnClickListener(v -> {
-            // TODO: navegar a la pantalla de productos del usuario
+            startActivity(new Intent(HomeActivity.this, MyProductsActivity.class));
         });
 
         btnPerfil.setOnClickListener(v -> {

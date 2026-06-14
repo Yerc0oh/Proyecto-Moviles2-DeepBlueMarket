@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <!-- Para Android 12 y anteriores también: -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
 
     <application
         android:allowBackup="true"
@@ -36,6 +40,20 @@
             </intent-filter>
 
         </activity>
+        <!-- Agregar las Activities que faltaban -->
+        <activity android:name=".ui.auth.LoginActivity" android:exported="false" />
+        <activity android:name=".ui.home.HomeActivity" android:exported="false" />
+        <activity android:name=".ui.profile.ProfileActivity" android:exported="false" />
+        <activity android:name=".ui.profile.UpdateProfileActivity" android:exported="false" />
+
+        <activity android:name=".ui.products.ProductListActivity"
+            android:exported="false" />
+        <activity android:name=".ui.products.MyProductsActivity"
+            android:exported="false" />
+        <activity android:name=".ui.products.CreateProductActivity"
+            android:exported="false" />
+        <activity android:name=".ui.products.ProductDetailActivity"
+            android:exported="false" />
 
         <meta-data
             android:name="com.auth0.domain"
