@@ -3,7 +3,8 @@ package com.moviles2.proyectomov2_deepbluemarket.network;
 import android.util.Log;
 
 import com.moviles2.proyectomov2_deepbluemarket.models.Usuario;
-import com.moviles2.proyectomov2_deepbluemarket.utils.Constants;
+import com.moviles2.proyectomov2_deepbluemarket.models.dto.UsuarioCreateDTO;
+import com.moviles2.proyectomov2_deepbluemarket.models.dto.UsuarioUpdateDTO;
 
 import java.util.List;
 
@@ -11,7 +12,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class UserService {
 
@@ -21,11 +21,7 @@ public class UserService {
 
     // Constructor privado para Singleton
     private UserService() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.SUPABASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
+        Retrofit retrofit = SupabaseClient.getClient();
         supabaseService = retrofit.create(SupabaseService.class);
     }
 
@@ -68,7 +64,7 @@ public class UserService {
 
         Log.d(TAG, "Buscando usuario con auth0_id: " + auth0Id);
 
-        supabaseService.getUsuarioByAuth0Id(auth0Id).enqueue(new Callback<List<Usuario>>() {
+        supabaseService.getUsuarioByAuth0Id("eq." + auth0Id).enqueue(new Callback<List<Usuario>>() {
             @Override
             public void onResponse(Call<List<Usuario>> call, Response<List<Usuario>> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -113,7 +109,17 @@ public class UserService {
 
         Log.d(TAG, "Creando nuevo usuario: " + user.getNombre());
 
-        supabaseService.crearUsuario(user).enqueue(new Callback<List<Usuario>>() {
+        UsuarioCreateDTO dto = new UsuarioCreateDTO(
+                user.getAuth0Id(),
+                user.getNombre(),
+                user.getCorreo(),
+                user.getTelefono(),
+                user.isVerificado(),
+                user.getFotoPerfilUrl(),
+                user.getFotoDocumentoUrl()
+        );
+
+        supabaseService.crearUsuario(dto).enqueue(new Callback<List<Usuario>>() {
             @Override
             public void onResponse(Call<List<Usuario>> call, Response<List<Usuario>> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -140,9 +146,8 @@ public class UserService {
     }
 
     /**
-     * Actualiza un usuario existente
-     * Nota: Supabase usa PUT para actualizar, necesitas implementar @PUT en SupabaseService
-     * @param user Objeto Usuario con datos actualizados
+     * Actualiza un usuario existente mediante PATCH a Supabase (filtrando por id=eq.{id}).
+     * @param user Objeto Usuario con datos actualizados (debe tener un id válido)
      * @param callback Callback para manejar la respuesta
      */
     public void updateUser(Usuario user, UserCallback callback) {
@@ -158,13 +163,42 @@ public class UserService {
 
         Log.d(TAG, "Actualizando usuario con ID: " + user.getId());
 
-        // Nota: Necesitas agregar el método @PUT en SupabaseService
-        // Por ahora usamos un workaround con GET + POST no es recomendado
+        UsuarioUpdateDTO dto = new UsuarioUpdateDTO(
+                user.getNombre(),
+                user.getCorreo(),
+                user.getTelefono(),
+                user.isVerificado(),
+                user.getFotoPerfilUrl(),
+                user.getFotoDocumentoUrl()
+        );
 
-        // Método alternativo: Usar consulta directa con Retrofit
-        // Por ahora indicamos que se necesita implementar @PUT
-        callback.onError("Método updateUser requiere implementar @PUT en SupabaseService. " +
-                "Agrega: @PUT(\"usuario?id=eq.{id}\") Call<List<Usuario>> actualizarUsuario(@Path(\"id\") long id, @Body Usuario usuario)");
+        Log.d("UPDATE", "ID = " + user.getId());
+
+        supabaseService.actualizarUsuario("eq." + user.getId(), dto).enqueue(new Callback<List<Usuario>>() {
+            @Override
+            public void onResponse(Call<List<Usuario>> call, Response<List<Usuario>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<Usuario> usuarios = response.body();
+                    if (!usuarios.isEmpty()) {
+                        Usuario usuarioActualizado = usuarios.get(0);
+                        Log.d(TAG, "Usuario actualizado exitosamente: " + usuarioActualizado.getId());
+                        callback.onSuccess(usuarioActualizado);
+                    } else {
+                        Log.d("UPDATE", "ID = " + user.getId());
+                        callback.onError("Respuesta vacía al actualizar usuario");
+                    }
+                } else {
+                    Log.e(TAG, "Error al actualizar usuario: " + response.code() + " - " + response.message());
+                    callback.onError("Error al actualizar usuario: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Usuario>> call, Throwable t) {
+                Log.e(TAG, "Error de red al actualizar usuario", t);
+                callback.onError("Error de conexión: " + t.getMessage());
+            }
+        });
     }
 
     /**
@@ -180,7 +214,7 @@ public class UserService {
 
         Log.d(TAG, "Verificando existencia de usuario con auth0_id: " + auth0Id);
 
-        supabaseService.getUsuarioByAuth0Id(auth0Id).enqueue(new Callback<List<Usuario>>() {
+        supabaseService.getUsuarioByAuth0Id("eq." + auth0Id).enqueue(new Callback<List<Usuario>>() {
             @Override
             public void onResponse(Call<List<Usuario>> call, Response<List<Usuario>> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -211,7 +245,7 @@ public class UserService {
             throw new IllegalArgumentException("auth0_id no puede ser nulo o vacío");
         }
 
-        retrofit2.Response<List<Usuario>> response = supabaseService.getUsuarioByAuth0Id(auth0Id).execute();
+        retrofit2.Response<List<Usuario>> response = supabaseService.getUsuarioByAuth0Id("eq." + auth0Id).execute();
 
         if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
             return response.body().get(0);

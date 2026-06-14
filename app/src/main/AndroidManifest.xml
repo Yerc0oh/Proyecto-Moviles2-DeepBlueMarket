@@ -29,14 +29,13 @@
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <!-- scheme -->
+                <!-- scheme para el callback de Auth0 -->
                 <data
                     android:scheme="deepbluemarket"
-                    android:host="com.moviles2.proyectomv2_deepbluemarket" />
+                    android:host="dev-nl5nqny4cp808y4q.us.auth0.com" />
             </intent-filter>
 
         </activity>
@@ -53,6 +52,22 @@
         <activity android:name=".ui.products.CreateProductActivity"
             android:exported="false" />
         <activity android:name=".ui.products.ProductDetailActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.auth.LoginActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.home.HomeActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.profile.ProfileActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.profile.UpdateProfileActivity"
             android:exported="false" />
 
         <meta-data

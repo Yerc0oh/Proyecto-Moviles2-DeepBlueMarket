@@ -2,6 +2,8 @@ package com.moviles2.proyectomov2_deepbluemarket.storage;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import com.moviles2.proyectomov2_deepbluemarket.utils.Constants;
@@ -35,6 +37,7 @@ public class StorageManager {
 
     private final Context context;
     private final OkHttpClient client;
+    private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
     public StorageManager(Context context) {
         this.context = context;
@@ -55,7 +58,8 @@ public class StorageManager {
      * El path generado es: avatars/{auth0Id}/profile.jpg
      */
     public void uploadProfileImage(Uri imageUri, String auth0Id, UploadCallback callback) {
-        String path = "profile_" + auth0Id + ".jpg";
+        String path = "profile_" + auth0Id.replace("|","_") + ".jpg";
+
         subirArchivo(BUCKET_AVATARS, path, imageUri, callback);
     }
 
@@ -73,7 +77,7 @@ public class StorageManager {
      * El path generado es: verificaciones/{auth0Id}_doc.jpg
      */
     public void uploadProfileVerificationImage(Uri imageUri, String auth0Id, UploadCallback callback) {
-        String fileName = auth0Id + "_doc.jpg";
+        String fileName = auth0Id.replace("|","_") + "_doc.jpg";
         subirArchivo(BUCKET_VERIFICACIONES, fileName, imageUri, callback);
     }
 
@@ -117,7 +121,7 @@ public class StorageManager {
                 @Override
                 public void onFailure(okhttp3.Call call, IOException e) {
                     Log.e(TAG, "Error de red al subir imagen", e);
-                    callback.onError("Error de conexión: " + e.getMessage());
+                    mainHandler.post(() -> callback.onError("Error de conexión: " + e.getMessage()));
                 }
 
                 @Override
@@ -125,11 +129,11 @@ public class StorageManager {
                     if (response.isSuccessful()) {
                         String publicUrl = getPublicUrl(bucket, fileName);
                         Log.d(TAG, "Imagen subida correctamente: " + publicUrl);
-                        callback.onSuccess(publicUrl);
+                        mainHandler.post(() -> callback.onSuccess(publicUrl));
                     } else {
                         String errorBody = response.body() != null ? response.body().string() : "";
                         Log.e(TAG, "Error al subir imagen: " + response.code() + " - " + errorBody);
-                        callback.onError("Error al subir imagen: " + response.code());
+                        mainHandler.post(() -> callback.onError("Error al subir imagen: " + response.code()));
                     }
                     response.close();
                 }
