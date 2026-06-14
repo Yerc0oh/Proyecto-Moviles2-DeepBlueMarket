@@ -70,7 +70,7 @@ public class MyProductsActivity extends AppCompatActivity {
                         .setTitle("Eliminar producto")
                         .setMessage("¿Estás seguro de que quieres eliminar \"" + producto.getTitulo() + "\"?")
                         .setPositiveButton("Eliminar", (dialog, which) -> {
-                            productService.deleteProduct(producto.getId(), new ProductService.ActionCallback() {
+                            productService.deactivateProduct(producto.getId(), new ProductService.ActionCallback() {
                                 @Override
                                 public void onSuccess() {
                                     runOnUiThread(() -> {

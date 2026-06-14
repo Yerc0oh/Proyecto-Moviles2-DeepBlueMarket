@@ -16,6 +16,9 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import com.moviles2.proyectomov2_deepbluemarket.utils.Constants;
+import com.google.gson.Gson;
+import com.moviles2.proyectomov2_deepbluemarket.models.dto.ProductoCreateDTO;
+import com.moviles2.proyectomov2_deepbluemarket.models.dto.ProductoUpdateDTO;
 public class ProductService {
 
     private static final String TAG = "ProductService";
@@ -49,7 +52,7 @@ public class ProductService {
     public void getAllProducts(ProductCallback callback) {
         executor.execute(() -> {
             try {
-                URL url = new URL(SUPABASE_URL + TABLE + "?select=*&order=fecha_publicacion.desc");
+                URL url = new URL(SUPABASE_URL + TABLE + "?select=*&estado=eq.activo&order=fecha_publicacion.desc");
                 HttpURLConnection conn = buildConnection(url, "GET");
                 int code = conn.getResponseCode();
                 if (code == 200) {
@@ -75,6 +78,7 @@ public class ProductService {
                 URL url = new URL(SUPABASE_URL + TABLE
                         + "?select=*,usuarios!inner(auth0_id)"
                         + "&usuarios.auth0_id=eq." + encoded
+                        + "&estado=eq.activo"
                         + "&order=fecha_publicacion.desc");
                 HttpURLConnection conn = buildConnection(url, "GET");
                 int code = conn.getResponseCode();
@@ -110,17 +114,14 @@ public class ProductService {
                 conn.setDoOutput(true);
                 conn.setRequestProperty("Prefer", "return=minimal");
 
-                JSONObject body = new JSONObject();
-                body.put("usuario_id", usuarioId);
-                body.put("titulo", titulo);
-                body.put("descripcion", descripcion);
-                body.put("categoria", categoria);
-                body.put("precio", precio);
-                body.put("imagen_url", imagenUrl != null ? imagenUrl : "");
-                body.put("estado", "activo");
+                ProductoCreateDTO dto = new ProductoCreateDTO(
+                        usuarioId, titulo, descripcion, categoria,
+                        precio, imagenUrl != null ? imagenUrl : "", "activo"
+                );
+                String bodyJson = new Gson().toJson(dto);
 
                 try (OutputStream os = conn.getOutputStream()) {
-                    os.write(body.toString().getBytes(StandardCharsets.UTF_8));
+                    os.write(bodyJson.getBytes(StandardCharsets.UTF_8));
                 }
 
                 int code = conn.getResponseCode();
@@ -148,15 +149,14 @@ public class ProductService {
                 conn.setDoOutput(true);
                 conn.setRequestProperty("Prefer", "return=minimal");
 
-                JSONObject body = new JSONObject();
-                body.put("titulo", titulo);
-                body.put("descripcion", descripcion);
-                body.put("categoria", categoria);
-                body.put("precio", precio);
-                if (imagenUrl != null) body.put("imagen_url", imagenUrl);
+                ProductoUpdateDTO dto = new ProductoUpdateDTO(
+                        titulo, descripcion, categoria, precio,
+                        imagenUrl != null ? imagenUrl : "", "activo"
+                );
+                String bodyJson = new Gson().toJson(dto);
 
                 try (OutputStream os = conn.getOutputStream()) {
-                    os.write(body.toString().getBytes(StandardCharsets.UTF_8));
+                    os.write(bodyJson.getBytes(StandardCharsets.UTF_8));
                 }
 
                 int code = conn.getResponseCode();
@@ -189,6 +189,36 @@ public class ProductService {
                 }
             } catch (Exception e) {
                 Log.e(TAG, "deleteProduct", e);
+                callback.onError(e.getMessage());
+            }
+        });
+    }
+    // ─── DEACTIVATE (eliminación lógica) ────────────────────────────────────────
+
+    public void deactivateProduct(long id, ActionCallback callback) {
+        executor.execute(() -> {
+            try {
+                URL url = new URL(SUPABASE_URL + TABLE + "?id=eq." + id);
+                HttpURLConnection conn = buildConnection(url, "PATCH");
+                conn.setDoOutput(true);
+                conn.setRequestProperty("Prefer", "return=minimal");
+
+                ProductoUpdateDTO dto = new ProductoUpdateDTO();
+                dto.setEstado("inactivo");
+                String bodyJson = new Gson().toJson(dto);
+
+                try (OutputStream os = conn.getOutputStream()) {
+                    os.write(bodyJson.getBytes(StandardCharsets.UTF_8));
+                }
+
+                int code = conn.getResponseCode();
+                if (code == 200 || code == 204) {
+                    callback.onSuccess();
+                } else {
+                    callback.onError("Error " + code + ": " + readError(conn));
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "deactivateProduct", e);
                 callback.onError(e.getMessage());
             }
         });
