@@ -39,11 +39,7 @@
             </intent-filter>
 
         </activity>
-        <!-- Agregar las Activities que faltaban -->
-        <activity android:name=".ui.auth.LoginActivity" android:exported="false" />
-        <activity android:name=".ui.home.HomeActivity" android:exported="false" />
-        <activity android:name=".ui.profile.ProfileActivity" android:exported="false" />
-        <activity android:name=".ui.profile.UpdateProfileActivity" android:exported="false" />
+
 
         <activity android:name=".ui.products.ProductListActivity"
             android:exported="false" />
@@ -53,7 +49,8 @@
             android:exported="false" />
         <activity android:name=".ui.products.ProductDetailActivity"
             android:exported="false" />
-
+        <activity android:name=".ui.products.EditProductActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.auth.LoginActivity"
             android:exported="false" />

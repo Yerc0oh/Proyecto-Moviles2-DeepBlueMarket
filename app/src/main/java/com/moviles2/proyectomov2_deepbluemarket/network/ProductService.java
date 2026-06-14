@@ -15,13 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
+import com.moviles2.proyectomov2_deepbluemarket.utils.Constants;
 public class ProductService {
 
     private static final String TAG = "ProductService";
 
-    private static final String SUPABASE_URL = "https://qauavfhghzkohyffkztz.supabase.co";
-    private static final String SUPABASE_ANON_KEY = "sb_publishable_BuJyVVJaua3fuGqyeRFQVw_6gNEHunO";
+    private static final String SUPABASE_URL = Constants.SUPABASE_URL;
+    private static final String SUPABASE_ANON_KEY = Constants.SUPABASE_ANON_KEY;
     private static final String TABLE = "/rest/v1/productos";
     private static final String USERS_TABLE = "/rest/v1/usuarios";
 

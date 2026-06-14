@@ -13,13 +13,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Publicar producto"
+            android:text="Editar producto"
             android:textSize="22sp"
             android:textStyle="bold"
             android:textColor="#1A237E"
             android:layout_marginBottom="24dp" />
 
-        <!-- Imagen -->
         <ImageView
             android:id="@+id/ivProductPreview"
             android:layout_width="match_parent"
@@ -33,13 +32,11 @@
             android:id="@+id/btnSeleccionarImagen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Seleccionar imagen"
+            android:text="Cambiar imagen"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:textColor="#1565C0"
-            android:strokeColor="#1565C0"
             android:layout_marginBottom="20dp" />
 
-        <!-- Título -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -51,11 +48,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:textColor="#111111"
-                android:textColorHint="#888888" />
+                android:textColor="#111111" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Descripción -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -68,11 +63,9 @@
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
                 android:minLines="3"
-                android:textColor="#111111"
-                android:textColorHint="#888888" />
+                android:textColor="#111111" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Precio -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -84,11 +77,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
-                android:textColor="#111111"
-                android:textColorHint="#888888" />
+                android:textColor="#111111" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Categoría dropdown -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilCategoria"
             android:layout_width="match_parent"
@@ -101,11 +92,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none"
-                android:textColor="#111111"
-                android:textColorHint="#888888" />
+                android:textColor="#111111" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Campo extra para categoría personalizada (visible solo si elige "Otros") -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilCategoriaPersonalizada"
             android:layout_width="match_parent"
@@ -119,8 +108,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:textColor="#111111"
-                android:textColorHint="#888888" />
+                android:textColor="#111111" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <ProgressBar
@@ -132,10 +120,10 @@
             android:layout_marginBottom="12dp" />
 
         <Button
-            android:id="@+id/btnPublicar"
+            android:id="@+id/btnGuardar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Publicar producto"
+            android:text="Guardar cambios"
             android:backgroundTint="#1565C0"
             android:textColor="#FFFFFF"
             android:textSize="16sp"

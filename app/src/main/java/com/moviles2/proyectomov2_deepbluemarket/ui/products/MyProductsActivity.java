@@ -51,7 +51,46 @@ public class MyProductsActivity extends AppCompatActivity {
             intent.putExtra("imagen_url", producto.getImagenUrl());
             startActivity(intent);
         });
+        adapter.setActionListener(new ProductAdapter.OnProductActionListener() {
+            @Override
+            public void onEdit(Producto producto) {
+                Intent intent = new Intent(MyProductsActivity.this, EditProductActivity.class);
+                intent.putExtra("id", producto.getId());
+                intent.putExtra("titulo", producto.getTitulo());
+                intent.putExtra("descripcion", producto.getDescripcion());
+                intent.putExtra("categoria", producto.getCategoria());
+                intent.putExtra("precio", producto.getPrecio());
+                intent.putExtra("imagen_url", producto.getImagenUrl());
+                startActivity(intent);
+            }
 
+            @Override
+            public void onDelete(Producto producto) {
+                new androidx.appcompat.app.AlertDialog.Builder(MyProductsActivity.this)
+                        .setTitle("Eliminar producto")
+                        .setMessage("¿Estás seguro de que quieres eliminar \"" + producto.getTitulo() + "\"?")
+                        .setPositiveButton("Eliminar", (dialog, which) -> {
+                            productService.deleteProduct(producto.getId(), new ProductService.ActionCallback() {
+                                @Override
+                                public void onSuccess() {
+                                    runOnUiThread(() -> {
+                                        Toast.makeText(MyProductsActivity.this,
+                                                "Producto eliminado", Toast.LENGTH_SHORT).show();
+                                        loadMyProducts();
+                                    });
+                                }
+                                @Override
+                                public void onError(String error) {
+                                    runOnUiThread(() ->
+                                            Toast.makeText(MyProductsActivity.this,
+                                                    "Error: " + error, Toast.LENGTH_LONG).show());
+                                }
+                            });
+                        })
+                        .setNegativeButton("Cancelar", null)
+                        .show();
+            }
+        });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 

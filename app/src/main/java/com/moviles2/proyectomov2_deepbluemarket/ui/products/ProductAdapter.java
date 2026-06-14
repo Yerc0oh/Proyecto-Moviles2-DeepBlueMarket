@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -19,14 +20,26 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         void onProductClick(Producto producto);
     }
 
+    public interface OnProductActionListener {
+        void onEdit(Producto producto);
+        void onDelete(Producto producto);
+    }
+
     private final Context context;
     private final List<Producto> productos;
-    private final OnProductClickListener listener;
+    private final OnProductClickListener clickListener;
+    private OnProductActionListener actionListener; // null = modo normal
 
+    // Constructor modo normal (ProductListActivity)
     public ProductAdapter(Context context, List<Producto> productos, OnProductClickListener listener) {
         this.context = context;
         this.productos = productos;
-        this.listener = listener;
+        this.clickListener = listener;
+    }
+
+    // Activa modo "mis productos" con botones editar/eliminar
+    public void setActionListener(OnProductActionListener listener) {
+        this.actionListener = listener;
     }
 
     @NonNull
@@ -44,16 +57,24 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         holder.tvPrecio.setText(String.format("Bs. %.2f", p.getPrecio()));
 
         if (p.getImagenUrl() != null && !p.getImagenUrl().isEmpty()) {
-            Glide.with(context)
-                    .load(p.getImagenUrl())
-                    .centerCrop()
-                    .placeholder(R.drawable.ic_launcher_background)
-                    .into(holder.ivImagen);
+            Glide.with(context).load(p.getImagenUrl()).centerCrop()
+                    .placeholder(R.drawable.ic_launcher_background).into(holder.ivImagen);
         } else {
             holder.ivImagen.setImageResource(R.drawable.ic_launcher_background);
         }
 
-        holder.itemView.setOnClickListener(v -> listener.onProductClick(p));
+        holder.itemView.setOnClickListener(v -> clickListener.onProductClick(p));
+
+        // Mostrar botones solo en modo "mis productos"
+        if (actionListener != null) {
+            holder.btnEditar.setVisibility(View.VISIBLE);
+            holder.btnEliminar.setVisibility(View.VISIBLE);
+            holder.btnEditar.setOnClickListener(v -> actionListener.onEdit(p));
+            holder.btnEliminar.setOnClickListener(v -> actionListener.onDelete(p));
+        } else {
+            holder.btnEditar.setVisibility(View.GONE);
+            holder.btnEliminar.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -62,6 +83,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView ivImagen;
         TextView tvTitulo, tvCategoria, tvPrecio;
+        ImageButton btnEditar, btnEliminar;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -69,6 +91,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             tvTitulo = itemView.findViewById(R.id.tvProductTitulo);
             tvCategoria = itemView.findViewById(R.id.tvProductCategoria);
             tvPrecio = itemView.findViewById(R.id.tvProductPrecio);
+            btnEditar = itemView.findViewById(R.id.btnEditar);
+            btnEliminar = itemView.findViewById(R.id.btnEliminar);
         }
     }
 }
