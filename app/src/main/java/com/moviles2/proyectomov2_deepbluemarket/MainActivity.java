@@ -18,23 +18,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main); // tu splash layout
+        setContentView(R.layout.activity_main);
 
         sessionManager = new SessionManager(this);
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-
             Intent intent;
-
             if (sessionManager.haySesionActiva()) {
                 intent = new Intent(MainActivity.this, HomeActivity.class);
             } else {
                 intent = new Intent(MainActivity.this, LoginActivity.class);
             }
-
             startActivity(intent);
             finish();
-
-        }, 2000); // 2 segundos
+        }, 2000);
     }
 }

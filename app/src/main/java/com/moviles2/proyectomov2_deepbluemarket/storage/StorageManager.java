@@ -68,7 +68,7 @@ public class StorageManager {
      * El path generado es: productos/{productoId}_{timestamp}.jpg
      */
     public void uploadProductImage(Uri imageUri, String productoId, UploadCallback callback) {
-        String fileName = productoId + "_" + System.currentTimeMillis() + ".jpg";
+        String fileName = productoId.replace("|", "_") + "_" + System.currentTimeMillis() + ".jpg";
         subirArchivo(BUCKET_PRODUCTOS, fileName, imageUri, callback);
     }
 
@@ -89,7 +89,7 @@ public class StorageManager {
      * @param path   Ruta del archivo dentro del bucket (ej. "profile_xyz.jpg")
      */
     public String getPublicUrl(String bucket, String path) {
-        return Constants.SUPABASE_URL + "/storage/v1/object/public/" + bucket + "/" + path;
+        return Constants.SUPABASE_URL.replaceAll("/$", "") + "/storage/v1/object/public/" + bucket + "/" + path;
     }
 
     /**
@@ -105,7 +105,7 @@ public class StorageManager {
                 return;
             }
 
-            String url = Constants.SUPABASE_URL + "/storage/v1/object/" + bucket + "/" + fileName;
+            String url = Constants.SUPABASE_URL.replaceAll("/$", "") + "/storage/v1/object/" + bucket + "/" + fileName;
 
             RequestBody body = RequestBody.create(datos, MediaType.parse("image/jpeg"));
 
@@ -133,6 +133,7 @@ public class StorageManager {
                     } else {
                         String errorBody = response.body() != null ? response.body().string() : "";
                         Log.e(TAG, "Error al subir imagen: " + response.code() + " - " + errorBody);
+                        Log.e(TAG, "Error " + response.code() + " subiendo a: " + bucket + "/" + fileName + " | " + errorBody);
                         mainHandler.post(() -> callback.onError("Error al subir imagen: " + response.code()));
                     }
                     response.close();
