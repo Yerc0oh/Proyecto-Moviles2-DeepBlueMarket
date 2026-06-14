@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.moviles2.proyectomov2_deepbluemarket.R;
 import com.moviles2.proyectomov2_deepbluemarket.ui.auth.LoginActivity;
+import com.moviles2.proyectomov2_deepbluemarket.ui.info.InfoActivity;
 import com.moviles2.proyectomov2_deepbluemarket.ui.profile.ProfileActivity;
 import com.moviles2.proyectomov2_deepbluemarket.utils.SessionManager;
 
@@ -28,6 +29,7 @@ public class HomeActivity extends AppCompatActivity {
         Button btnMisProductos = findViewById(R.id.btnMisProductos);
         Button btnPerfil = findViewById(R.id.btnPerfil);
         Button btnSalir = findViewById(R.id.btnSalir);
+        Button btnInfo = findViewById(R.id.btnInfo);
 
         // Mostrar nombre del usuario desde la sesión local
         String nombre = sessionManager.getNombre();
@@ -52,6 +54,11 @@ public class HomeActivity extends AppCompatActivity {
 
         // Solo cierra la app, NO hace logout (eso se maneja en ProfileActivity)
         btnSalir.setOnClickListener(v -> finishAffinity());
+
+        btnInfo.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, InfoActivity.class);
+            startActivity(intent);
+        });
 
         if (!sessionManager.haySesionActiva()) {
             // Si no hay sesión activa, redirigir a la pantalla de login

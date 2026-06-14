@@ -10,7 +10,7 @@ public class SessionManager {
     private static final String KEY_AUTH0_ID = "auth0_id";
     private static final String KEY_EMAIL = "email";
     private static final String KEY_NOMBRE = "nombre";
-    private static final String KEY_EMAIL_VERIFICADO = "email_verificado";
+    private static final String KEY_EMAIL_VERIFICADO = "verificado";
 
     private final SharedPreferences prefs;
 

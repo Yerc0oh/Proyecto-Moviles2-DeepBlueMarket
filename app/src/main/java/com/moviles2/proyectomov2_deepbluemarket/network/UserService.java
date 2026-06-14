@@ -163,6 +163,11 @@ public class UserService {
 
         Log.d(TAG, "Actualizando usuario con ID: " + user.getId());
 
+        user.setVerificado(
+                user.getFotoDocumentoUrl() != null
+                        && !user.getFotoDocumentoUrl().isEmpty()
+        );
+
         UsuarioUpdateDTO dto = new UsuarioUpdateDTO(
                 user.getNombre(),
                 user.getCorreo(),

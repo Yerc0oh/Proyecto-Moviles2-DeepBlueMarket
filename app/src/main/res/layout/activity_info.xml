@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- Título de la aplicación -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="DeepBlue Market"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="#1565C0"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Subtítulo: materia -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Aplicación desarrollada como proyecto final de la materia Programación de Dispositivos Móviles II (INF - 254)"
+            android:textSize="14sp"
+            android:textColor="#666666"
+            android:layout_marginBottom="4dp" />
+
+        <!-- Subtítulo: docente -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Lic. Juan Marcos Miranda Nina"
+            android:textSize="14sp"
+            android:textStyle="italic"
+            android:textColor="#666666"
+            android:layout_marginBottom="32dp" />
+
+        <!-- Desarrollado por -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Desarrollado por:"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Abed Yeray Calderon Calle (CI: 12864956)"
+            android:textSize="14sp"
+            android:textColor="#000000" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Melani Masco Vargas (CI: 13844737)"
+            android:textSize="14sp"
+            android:textColor="#000000"
+            android:layout_marginBottom="32dp" />
+
+        <!-- Descripción del proyecto -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="DeepBlue Market nace como una propuesta para ofrecer un espacio de compra y venta en línea seguro y confiable, pensado para el contexto boliviano, donde actualmente no existe una plataforma local de este tipo ampliamente reconocida."
+            android:textSize="14sp"
+            android:textColor="#333333"
+            android:lineSpacingExtra="4dp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Auth0 + Supabase -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Utilizamos Auth0 para brindar una capa adicional de seguridad en la administración de usuarios y verificaciones, integrado con la base de datos de Supabase."
+            android:textSize="14sp"
+            android:textColor="#333333"
+            android:lineSpacingExtra="4dp"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Inspiración del nombre -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="El nombre DeepBlue Market está inspirado en la canción &quot;Deep Blue&quot;, compuesta por Arsi 'Hakita' Patala. Esta inspiración se limita únicamente al nombre del proyecto y no existe ninguna afiliación con la obra original."
+            android:textSize="12sp"
+            android:textColor="#999999"
+            android:lineSpacingExtra="4dp"
+            android:layout_marginBottom="32dp" />
+
+        <!-- Repositorio de GitHub -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Repositorio de código fuente: \nhttps://github.com/Yerc0oh/Proyecto-Moviles2-DeepBlueMarket.git"
+            android:textSize="11sp"
+            android:textColor="#999999"
+            android:autoLink="web"
+            android:layout_marginBottom="32dp" />
+
+        <!-- Agradecimiento -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="¡Gracias por instalar DeepBlue Market!"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#1565C0"
+            android:layout_marginBottom="32dp" />
+
+        <!-- Botón Volver -->
+        <Button
+            android:id="@+id/btnVolver"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Volver"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:textColor="#1565C0" />
+
+    </LinearLayout>
+
+</ScrollView>

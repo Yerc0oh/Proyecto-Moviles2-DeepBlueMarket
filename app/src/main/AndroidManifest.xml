@@ -52,6 +52,10 @@
             android:name=".ui.profile.UpdateProfileActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".ui.info.InfoActivity"
+            android:exported="false" />
+
         <meta-data
             android:name="com.auth0.domain"
             android:value="@string/com_auth0_domain" />
