@@ -314,4 +314,41 @@ public class ProductService {
         p.setEstado(o.optString("estado", ""));
         return p;
     }
+    // ─── GET USUARIO BY ID ───────────────────────────────────────────────────────
+
+    public interface UsuarioCallback {
+        void onSuccess(String nombre, String telefono);
+        void onError(String error);
+    }
+
+    public void getUsuarioById(long usuarioId, UsuarioCallback callback) {
+        executor.execute(() -> {
+            try {
+                URL url = new URL(SUPABASE_URL + USERS_TABLE
+                        + "?id=eq." + usuarioId
+                        + "&select=nombre,telefono"
+                        + "&limit=1");
+                HttpURLConnection conn = buildConnection(url, "GET");
+                int code = conn.getResponseCode();
+                if (code == 200) {
+                    String body = readResponse(conn);
+                    JSONArray arr = new JSONArray(body);
+                    if (arr.length() > 0) {
+                        JSONObject o = arr.getJSONObject(0);
+                        callback.onSuccess(
+                                o.optString("nombre", "Vendedor"),
+                                o.optString("telefono", "")
+                        );
+                    } else {
+                        callback.onError("Usuario no encontrado");
+                    }
+                } else {
+                    callback.onError("Error " + code);
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "getUsuarioById", e);
+                callback.onError(e.getMessage());
+            }
+        });
+    }
 }

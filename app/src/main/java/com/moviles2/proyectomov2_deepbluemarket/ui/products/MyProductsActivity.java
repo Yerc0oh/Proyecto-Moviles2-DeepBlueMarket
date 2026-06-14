@@ -61,6 +61,7 @@ public class MyProductsActivity extends AppCompatActivity {
                 intent.putExtra("categoria", producto.getCategoria());
                 intent.putExtra("precio", producto.getPrecio());
                 intent.putExtra("imagen_url", producto.getImagenUrl());
+                intent.putExtra("usuario_id", producto.getUsuarioId());
                 startActivity(intent);
             }
 

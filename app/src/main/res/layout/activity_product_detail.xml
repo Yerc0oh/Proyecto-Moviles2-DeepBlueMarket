@@ -102,6 +102,13 @@
                 android:textColor="#444"
                 android:layout_marginBottom="32dp"
                 android:text="Usuario" />
+            <ProgressBar
+                android:id="@+id/progressBarDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:layout_marginBottom="12dp" />
 
             <Button
                 android:id="@+id/btnWhatsApp"

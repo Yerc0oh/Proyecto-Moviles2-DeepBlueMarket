@@ -20,6 +20,9 @@ import com.moviles2.proyectomov2_deepbluemarket.R;
 import com.moviles2.proyectomov2_deepbluemarket.network.ProductService;
 import com.moviles2.proyectomov2_deepbluemarket.storage.StorageManager;
 import com.moviles2.proyectomov2_deepbluemarket.utils.SessionManager;
+import com.moviles2.proyectomov2_deepbluemarket.models.Usuario;
+import com.moviles2.proyectomov2_deepbluemarket.network.UserService;
+import android.content.Intent;
 
 public class CreateProductActivity extends AppCompatActivity {
 
@@ -53,7 +56,36 @@ public class CreateProductActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_product);
 
         sessionManager = new SessionManager(this);
+        // Verificar que el usuario tenga teléfono antes de mostrar el formulario
+        String auth0Id = sessionManager.getAuth0Id();
+        UserService.getInstance().getUserByAuth0Id(auth0Id, new UserService.UserCallback() {
+            @Override
+            public void onSuccess(Usuario usuario) {
+                runOnUiThread(() -> {
+                    String tel = usuario.getTelefono();
+                    if (tel == null || tel.trim().isEmpty()) {
+                        // No tiene teléfono → mostrar dialog y no dejar publicar
+                        new androidx.appcompat.app.AlertDialog.Builder(CreateProductActivity.this)
+                                .setTitle("Teléfono requerido")
+                                .setMessage("Para publicar productos necesitas agregar tu número de WhatsApp en tu perfil.")
+                                .setPositiveButton("Ir al perfil", (d, w) -> {
+                                    startActivity(new Intent(CreateProductActivity.this,
+                                            com.moviles2.proyectomov2_deepbluemarket.ui.profile.UpdateProfileActivity.class));
+                                    finish();
+                                })
+                                .setNegativeButton("Cancelar", (d, w) -> finish())
+                                .setCancelable(false)
+                                .show();
+                    }
+                    // Si tiene teléfono, no hace nada — el formulario ya está visible
+                });
+            }
 
+            @Override
+            public void onError(String error) {
+                // Si hay error verificando, dejamos publicar igual
+            }
+        });
         etTitulo = findViewById(R.id.etTitulo);
         etDescripcion = findViewById(R.id.etDescripcion);
         etPrecio = findViewById(R.id.etPrecio);
