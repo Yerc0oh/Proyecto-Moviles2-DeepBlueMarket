@@ -12,6 +12,8 @@ import com.moviles2.proyectomov2_deepbluemarket.auth.AuthManager;
 import com.moviles2.proyectomov2_deepbluemarket.ui.auth.LoginActivity;
 import com.moviles2.proyectomov2_deepbluemarket.ui.home.HomeActivity;
 import com.moviles2.proyectomov2_deepbluemarket.utils.SessionManager;
+import android.widget.ImageView;
+import com.bumptech.glide.Glide;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -33,6 +35,7 @@ public class ProfileActivity extends AppCompatActivity {
         TextView tvEmail = findViewById(R.id.tvEmail);
         TextView tvAuth0Id = findViewById(R.id.tvAuth0Id);
         TextView tvVerificado = findViewById(R.id.tvVerificado);
+        ImageView ivProfilePhoto = findViewById(R.id.ivProfilePhoto);
 
         Button btnEditarPerfil = findViewById(R.id.btnEditarPerfil);
         Button btnVolverHome = findViewById(R.id.btnVolverHome);
@@ -54,6 +57,16 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
         btnCerrarSesion.setOnClickListener(v -> cerrarSesion());
+        String fotoUrl = sessionManager.getFotoPerfil();
+
+        if (fotoUrl != null && !fotoUrl.isEmpty()) {
+            Glide.with(ProfileActivity.this)
+                    .load(fotoUrl)
+                    .placeholder(R.drawable.ic_launcher_foreground)
+                    .error(R.drawable.ic_launcher_foreground)
+                    .circleCrop()
+                    .into(ivProfilePhoto);
+        }
     }
 
     /**

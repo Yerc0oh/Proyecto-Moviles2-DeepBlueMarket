@@ -13,6 +13,8 @@ public class SessionManager {
     private static final String KEY_EMAIL_VERIFICADO = "verificado";
     private static final String KEY_USUARIO_ID = "usuario_id";
 
+    private static final String KEY_FOTO_PERFIL = "foto_perfil_url";
+
     private final SharedPreferences prefs;
 
     public SessionManager(Context context) {
@@ -69,5 +71,13 @@ public class SessionManager {
 
     public void cerrarSesion() {
         prefs.edit().clear().apply();
+    }
+
+    public void guardarFotoPerfil(String url) {
+        prefs.edit().putString(KEY_FOTO_PERFIL, url).apply();
+    }
+
+    public String getFotoPerfil() {
+        return prefs.getString(KEY_FOTO_PERFIL, null);
     }
 }

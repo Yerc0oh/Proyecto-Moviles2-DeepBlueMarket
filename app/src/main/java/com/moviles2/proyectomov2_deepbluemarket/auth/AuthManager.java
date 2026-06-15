@@ -183,6 +183,7 @@ public class AuthManager {
             sessionManager.guardarAuth0Id(profile.getId());
             sessionManager.guardarEmail(profile.getEmail());
             sessionManager.guardarNombre(profile.getName());
+            sessionManager.guardarFotoPerfil(profile.getPictureURL());
             sessionManager.guardarEmailVerificado(Boolean.TRUE.equals(profile.isEmailVerified()));
         }
     }
