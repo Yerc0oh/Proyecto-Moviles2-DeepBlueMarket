@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <!-- Para Android 12 y anteriores también: -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,15 +18,79 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyectoMov2DeepBlueMarket">
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <!-- scheme para el callback de Auth0 -->
+                <data
+                    android:scheme="deepbluemarket"
+                    android:host="dev-nl5nqny4cp808y4q.us.auth0.com" />
+            </intent-filter>
+
         </activity>
+
+
+        <activity android:name=".ui.products.ProductListActivity"
+            android:exported="false" />
+        <activity android:name=".ui.products.MyProductsActivity"
+            android:exported="false" />
+        <activity android:name=".ui.products.CreateProductActivity"
+            android:exported="false" />
+        <activity android:name=".ui.products.ProductDetailActivity"
+            android:exported="false" />
+        <activity android:name=".ui.products.EditProductActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.auth.LoginActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.home.HomeActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.profile.ProfileActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.profile.UpdateProfileActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.info.InfoActivity"
+            android:exported="false" />
+
+        <meta-data
+            android:name="com.auth0.domain"
+            android:value="@string/com_auth0_domain" />
+
+        <meta-data
+            android:name="com.auth0.client_id"
+            android:value="@string/com_auth0_client_id" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
     </application>
 
 </manifest>

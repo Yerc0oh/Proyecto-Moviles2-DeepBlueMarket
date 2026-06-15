@@ -21,4 +21,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "ProyectoMov2-DeepBlueMarket"
 include(":app")
+
  
