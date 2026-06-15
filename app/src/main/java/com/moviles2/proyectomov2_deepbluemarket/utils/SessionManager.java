@@ -11,6 +11,7 @@ public class SessionManager {
     private static final String KEY_EMAIL = "email";
     private static final String KEY_NOMBRE = "nombre";
     private static final String KEY_EMAIL_VERIFICADO = "verificado";
+    private static final String KEY_USUARIO_ID = "usuario_id";
 
     private final SharedPreferences prefs;
 
@@ -34,6 +35,10 @@ public class SessionManager {
         prefs.edit().putBoolean(KEY_EMAIL_VERIFICADO, verificado).apply();
     }
 
+    public void guardarUsuarioId(long usuarioId) {
+        prefs.edit().putLong(KEY_USUARIO_ID, usuarioId).apply();
+    }
+
     public String getAuth0Id() {
         return prefs.getString(KEY_AUTH0_ID, null);
     }
@@ -48,6 +53,14 @@ public class SessionManager {
 
     public boolean isEmailVerificado() {
         return prefs.getBoolean(KEY_EMAIL_VERIFICADO, false);
+    }
+
+    /**
+     * Retorna el id numérico del usuario en la tabla "usuarios" de Supabase,
+     * o -1 si aún no se ha sincronizado.
+     */
+    public long getUsuarioId() {
+        return prefs.getLong(KEY_USUARIO_ID, -1L);
     }
 
     public boolean haySesionActiva() {

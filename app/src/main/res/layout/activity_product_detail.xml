@@ -100,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:textColor="#444"
-                android:layout_marginBottom="32dp"
+                android:layout_marginBottom="20dp"
                 android:text="Usuario" />
             <ProgressBar
                 android:id="@+id/progressBarDetail"
@@ -110,11 +110,24 @@
                 android:visibility="gone"
                 android:layout_marginBottom="12dp" />
 
+            <!-- Hacer oferta (oculto si el producto es propio) -->
+            <Button
+                android:id="@+id/btnHacerOferta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="💰 Hacer oferta"
+                android:backgroundTint="#1565C0"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:padding="14dp"
+                android:layout_marginBottom="12dp"
+                android:visibility="gone" />
+
             <Button
                 android:id="@+id/btnWhatsApp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="💬 Hacer oferta por WhatsApp"
+                android:text="💬 Contactar por WhatsApp"
                 android:backgroundTint="#25D366"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"

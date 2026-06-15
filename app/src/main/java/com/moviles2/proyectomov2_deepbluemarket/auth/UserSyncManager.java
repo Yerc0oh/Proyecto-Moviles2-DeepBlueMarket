@@ -98,5 +98,6 @@ public class UserSyncManager {
         sessionManager.guardarEmail(usuario.getCorreo());
         sessionManager.guardarNombre(usuario.getNombre());
         sessionManager.guardarEmailVerificado(usuario.isVerificado());
+        sessionManager.guardarUsuarioId(usuario.getId());
     }
 }

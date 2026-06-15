@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     public interface OnProductActionListener {
         void onEdit(Producto producto);
         void onDelete(Producto producto);
+        void onVerOfertas(Producto producto);
     }
 
     private final Context context;
@@ -37,7 +39,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         this.clickListener = listener;
     }
 
-    // Activa modo "mis productos" con botones editar/eliminar
+    // Activa modo "mis productos" con botones editar/eliminar/ver ofertas
     public void setActionListener(OnProductActionListener listener) {
         this.actionListener = listener;
     }
@@ -69,11 +71,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         if (actionListener != null) {
             holder.btnEditar.setVisibility(View.VISIBLE);
             holder.btnEliminar.setVisibility(View.VISIBLE);
+            holder.btnVerOfertas.setVisibility(View.VISIBLE);
             holder.btnEditar.setOnClickListener(v -> actionListener.onEdit(p));
             holder.btnEliminar.setOnClickListener(v -> actionListener.onDelete(p));
+            holder.btnVerOfertas.setOnClickListener(v -> actionListener.onVerOfertas(p));
         } else {
             holder.btnEditar.setVisibility(View.GONE);
             holder.btnEliminar.setVisibility(View.GONE);
+            holder.btnVerOfertas.setVisibility(View.GONE);
         }
     }
 
@@ -84,6 +89,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         ImageView ivImagen;
         TextView tvTitulo, tvCategoria, tvPrecio;
         ImageButton btnEditar, btnEliminar;
+        Button btnVerOfertas;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -93,6 +99,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             tvPrecio = itemView.findViewById(R.id.tvProductPrecio);
             btnEditar = itemView.findViewById(R.id.btnEditar);
             btnEliminar = itemView.findViewById(R.id.btnEliminar);
+            btnVerOfertas = itemView.findViewById(R.id.btnVerOfertas);
         }
     }
 }

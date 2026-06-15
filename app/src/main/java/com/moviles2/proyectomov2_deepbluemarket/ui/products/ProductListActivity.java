@@ -44,6 +44,7 @@ public class ProductListActivity extends AppCompatActivity {
 
         adapter = new ProductAdapter(this, productosFiltrados, producto -> {
             Intent intent = new Intent(this, ProductDetailActivity.class);
+            intent.putExtra("id", producto.getId());
             intent.putExtra("titulo", producto.getTitulo());
             intent.putExtra("descripcion", producto.getDescripcion());
             intent.putExtra("categoria", producto.getCategoria());

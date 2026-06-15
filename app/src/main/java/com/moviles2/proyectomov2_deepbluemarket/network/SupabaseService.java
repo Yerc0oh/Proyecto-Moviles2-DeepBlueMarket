@@ -1,6 +1,7 @@
 package com.moviles2.proyectomov2_deepbluemarket.network;
 
 import com.moviles2.proyectomov2_deepbluemarket.models.Oferta;
+import com.moviles2.proyectomov2_deepbluemarket.models.OfertaConUsuario;
 import com.moviles2.proyectomov2_deepbluemarket.models.Producto;
 import com.moviles2.proyectomov2_deepbluemarket.models.Usuario;
 
@@ -8,6 +9,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.PATCH;
@@ -64,4 +66,35 @@ public interface SupabaseService {
     @Headers("Prefer: return=representation")
     @PATCH(Constants.TABLA_OFERTAS)
     Call<List<Oferta>> actualizarOferta(@Query("id") String id, @Body OfertaUpdateDTO oferta);
+
+    /**
+     * Obtiene las ofertas de un producto con los datos del usuario
+     * ofertante embebidos (nombre y teléfono), mediante resource
+     * embedding de PostgREST.
+     *
+     * select = "*,usuarios(nombre,telefono)"
+     */
+    @GET(Constants.TABLA_OFERTAS)
+    Call<List<OfertaConUsuario>> getOfertasConUsuarioByProducto(
+            @Query("producto_id") String productoId,
+            @Query("select") String select);
+
+    /**
+     * Elimina una oferta por su id (usado al "Rechazar" una oferta).
+     */
+    @DELETE(Constants.TABLA_OFERTAS)
+    Call<Void> eliminarOferta(@Query("id") String id);
+
+    /**
+     * Obtiene ofertas creadas después de una fecha dada, para los
+     * productos indicados (usado por el polling de notificaciones).
+     *
+     * producto_id debe ir en formato "in.(1,2,3)" y fecha en
+     * formato "gt.<ISO_TIMESTAMP>".
+     */
+    @GET(Constants.TABLA_OFERTAS)
+    Call<List<OfertaConUsuario>> getOfertasNuevas(
+            @Query("producto_id") String productoIdsIn,
+            @Query("fecha") String fechaGt,
+            @Query("select") String select);
 }
